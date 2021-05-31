@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import axios from 'axios';
 
 import Header from './Components/UI/Header';
 import UserList from './Components/Users/UserList';
@@ -41,7 +42,11 @@ const mockUsers = [
 
 function App() {
 
-  const [ users, setUsers ] = useState(mockUsers);
+  const [ users, setUsers ] = useState([]);
+
+  useEffect( () => {
+    getData();
+  }, []);
 
   const handleNewUser = (data) => {
     let newItem = {...data, id: users[users.length -1].id +1 }
@@ -54,6 +59,15 @@ function App() {
     setUsers(aux)
   };
 
+  const getData = () => {
+    axios.get('http://localhost:3001/users')
+    .then(resp => {
+        setUsers(resp.data)
+    }).catch(error => {
+        setUsers(mockUsers);
+    });
+  };
+
   return (
     <>
     
@@ -61,6 +75,7 @@ function App() {
         addNewUser={handleNewUser}
         count={users.length}
       />
+      
       <UserList
         userData={users}
         deleteUser={handleDeleteUser}
