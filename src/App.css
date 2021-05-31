@@ -1,0 +1,61 @@
+.app-header {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.app-header Button {
+  margin-left: 1rem;
+}
+
+.users-list .user-row {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.users-list .user-row .left-side {
+  display: flex;
+  align-items: center;
+}
+
+.users-list .user-row .user-name-container {
+  margin-left: 1rem;
+}
+
+.add-user-modal {
+  background-color: white;
+  width: 50%;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  padding: 1rem;
+}
+
+.add-user-modal .user-modal-input {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.add-user-modal .actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.user-name .user-lastname {
+  font-size: 40px;
+  font-style: italic;
+}
+
+.user-pic-active {
+  border-style: double;
+  border-width: 5px;
+  border-color: green;
+}
+
+.user-pic-inactive {
+  border-style: double;
+  border-width: 5px;
+  border-color: red;
+}
