@@ -40,6 +40,8 @@ const mockUsers = [
   }
 ];
 
+const endPoint = 'http://localhost:3001/users';
+
 function App() {
 
   const [ users, setUsers ] = useState([]);
@@ -48,24 +50,63 @@ function App() {
     getData();
   }, []);
 
-  const handleNewUser = (data) => {
-    let newItem = {...data, id: users[users.length -1].id +1 }
-    setUsers([...users, newItem])
-  };
-
-  const handleDeleteUser = (index) => {
-    let aux = Object.assign([], users);
-    aux.splice(index, 1);
-    setUsers(aux)
-  };
-
   const getData = () => {
-    axios.get('http://localhost:3001/users')
+    axios.get(endPoint)
     .then(resp => {
         setUsers(resp.data)
     }).catch(error => {
         setUsers(mockUsers);
     });
+  };
+
+  const handleNewUser = (data) => {
+
+    axios.post(endPoint, data)
+    .then(resp => {
+      
+      if(resp.status === 201){
+        setUsers([...users, resp.data])
+      }
+
+    });
+
+    //TODO: Error, regresar validación del Formulario
+    
+  };
+
+  const handleDeleteUser = (index) => {
+    
+    axios.delete(endPoint + `/${users[index].id}`)
+    .then( resp => {
+
+      if( resp.status === 200){
+        let aux = Object.assign([], users);
+        aux.splice(index, 1);
+        setUsers(aux)
+      }
+
+    });
+
+    //TODO: acciones a tomer si no se puede borrar.
+
+  };
+
+  const handleUserStatus = (index) => {
+
+    let aux = Object.assign([], users);
+    aux[index].isActive = !aux[index].isActive;
+
+    axios.put(endPoint + `/${users[index].id}`, aux[index])
+    .then(resp => {
+
+      if( resp.status === 200 ){
+        setUsers(aux);
+      }
+
+    });
+
+    //TODO: Acciones a tomar si no se permite cambiar el status
+
   };
 
   return (
@@ -75,10 +116,11 @@ function App() {
         addNewUser={handleNewUser}
         count={users.length}
       />
-      
+
       <UserList
         userData={users}
         deleteUser={handleDeleteUser}
+        changeStatus={handleUserStatus}
       />
       
     </>

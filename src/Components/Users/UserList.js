@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import UserItem from './User';
 
 
-function UsersList({ userData, deleteUser }) {
+function UsersList({ userData, deleteUser, changeStatus }) {
     return (
         <>
             <div className="users-list">
@@ -28,6 +28,7 @@ function UsersList({ userData, deleteUser }) {
                                     <UserItem 
                                         data={user}
                                         delete={deleteUser.bind(this, index)}
+                                        status={changeStatus.bind(this, index)}
                                     />
                                 </Grid>);
                                 

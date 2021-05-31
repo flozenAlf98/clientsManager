@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Paper, Avatar } from '@material-ui/core';
 import UserActions from './UserActions';
 
 const User = (props) => {
     
-    const { id, name, lastname, email, picture, isActive } = props.data;
+    const { name, lastname, email, picture, isActive } = props.data;
 
-    const [ state, setState ] = useState(isActive);
-
-    const handleState = () => { setState(!state) };
+    const handleState = () => { props.status() };
 
     const handleDelete = () => { props.delete() };
  
@@ -18,7 +16,7 @@ const User = (props) => {
 
                 <div className="left-side">
 
-                    <Avatar className={ state ? "user-pic-active" : "user-pic-inactive"} src={picture} ></Avatar>
+                    <Avatar className={ isActive ? "user-pic-active" : "user-pic-inactive"} src={picture} ></Avatar>
 
                     <div className="user-name-container">
 
@@ -30,7 +28,11 @@ const User = (props) => {
 
                 </div>
 
-                <UserActions id={id} isActive={state} handleState={handleState} handleDelete={handleDelete} />
+                <UserActions
+                    isActive={isActive}
+                    handleState={handleState} 
+                    handleDelete={handleDelete}
+                />
 
             </Paper>
         </>

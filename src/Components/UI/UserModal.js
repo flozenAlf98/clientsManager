@@ -9,7 +9,7 @@ function UserModal(props) {
     const [ lastname, setLastName ] = useState("");
     const [ email, setEmail ] = useState("");
     const [ image, setImage ] = useState("");
-    const [ active, setActive ] = useState(false)
+    const [ active, setActive ] = useState(false);
 
     const handleName = (e) => setName(e.target.value);
     const handleLast = (e) => setLastName(e.target.value);
