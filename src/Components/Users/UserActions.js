@@ -1,29 +1,28 @@
 import React from 'react';
+
 import { Tooltip, IconButton } from '@material-ui/core';
 import { Delete, Close, Done } from '@material-ui/icons';
 
-const UserActions = (props) => {
-
-    const { isActive, handleState, handleDelete } = props;
+const UserActions = ({ isActive, deleteHandler, statusHandler }) => {
 
     return (
     <>
         <div className="right-side">
             { isActive ?
                 <Tooltip title="desactivar">
-                    <IconButton onClick={handleState} >
+                    <IconButton onClick={statusHandler} >
                         <Close></Close>
                     </IconButton>
                 </Tooltip> :
                 <Tooltip title="activar">
-                    <IconButton onClick={handleState} > 
+                    <IconButton onClick={statusHandler} > 
                         <Done></Done>
                     </IconButton>
                 </Tooltip>
             }
 
             <Tooltip title="eliminar">
-                <IconButton onClick={handleDelete}>
+                <IconButton onClick={deleteHandler}>
                     <Delete></Delete>
                 </IconButton>
             </Tooltip>

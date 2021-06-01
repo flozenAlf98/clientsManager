@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Button, Modal, TextField, FormControlLabel, Checkbox } from '@material-ui/core';
 
-function UserModal(props) {
+import { newUser, closeModal } from '../../services';
 
-    const { isOpen, close, addNewUser } = props;
+function UserModal() {
 
     const [ name, setName ] = useState("");
     const [ lastname, setLastName ] = useState("");
@@ -11,22 +12,34 @@ function UserModal(props) {
     const [ image, setImage ] = useState("");
     const [ active, setActive ] = useState(false);
 
-    const handleName = (e) => setName(e.target.value);
-    const handleLast = (e) => setLastName(e.target.value);
-    const handleEmail = (e) => setEmail(e.target.value);
-    const handleImage = (e) => setImage(e.target.value);
-    const handleActive = (e) => setActive(e.target.checked);
+    const nameHandler = (e) => setName(e.target.value);
+    const lastNameHandler = (e) => setLastName(e.target.value);
+    const emailHandler = (e) => setEmail(e.target.value);
+    const imageHandler = (e) => setImage(e.target.value);
+    const statusHandler = (e) => setActive(e.target.checked);
 
-    const addUser = () => {
-        const newUser = {
+
+    const isOpen = useSelector(state => state.modal);
+
+    const dispatch = useDispatch();
+
+    const closeModalHandler = () => {
+        closeModal(dispatch)
+    };
+
+    const newUserHandler = () => {
+
+        const userData = {
             name: name,
             lastname: lastname,
             email: email,
             picture: image,
             isActive: active
         };
-        addNewUser(newUser);
+
+        newUser(dispatch, userData);
         clean();
+        
     };
 
     const clean = () => {
@@ -35,14 +48,14 @@ function UserModal(props) {
         setEmail("");
         setImage("");
         setActive(false);
-        close();
+        closeModalHandler();
     };
 
     return(
         <>
             <Modal
                 open={isOpen}
-                onClose={close}
+                onClose={closeModalHandler}
             >
                 <div className="add-user-modal">
                     <h1>Agregar Usuario</h1>
@@ -52,34 +65,34 @@ function UserModal(props) {
                         variant="outlined" 
                         label="first name"
                         value={name}
-                        onChange={handleName}
+                        onChange={nameHandler}
                     />
                     <TextField
                         className="user-modal-input"
                         variant="outlined"
                         label="last name"
                         value={lastname}
-                        onChange={handleLast}
+                        onChange={lastNameHandler}
                     />
                     <TextField
                         className="user-modal-input"
                         variant="outlined"
                         label="email"
                         value={email}
-                        onChange={handleEmail}
+                        onChange={emailHandler}
                     />
                     <TextField
                         className="user-modal-input"
                         variant="outlined"
                         label="image URL"
                         value={image}
-                        onChange={handleImage}
+                        onChange={imageHandler}
                     />
                     <FormControlLabel
                         control={
                         <Checkbox
                             checked={active}
-                            onChange={handleActive}
+                            onChange={statusHandler}
                             name="state"
                             color="primary"
                         />
@@ -89,7 +102,7 @@ function UserModal(props) {
                     </div>
 
                     <div className="actions">
-                        <Button color="primary" onClick={addUser}>Agregar</Button>
+                        <Button color="primary" onClick={newUserHandler}>Agregar</Button>
                         <Button onClick={clean} >Cerrar</Button>
                     </div>
                 </div>

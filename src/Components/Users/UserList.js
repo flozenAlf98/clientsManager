@@ -1,10 +1,15 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+
 import Grid from '@material-ui/core/Grid';
 
 import UserItem from './User';
 
 
-function UsersList({ userData, deleteUser, changeStatus }) {
+function UsersList({ deleteUser, changeStatus }) {
+
+    const users = useSelector(state => state.users);
+
     return (
         <>
             <div className="users-list">
@@ -17,7 +22,7 @@ function UsersList({ userData, deleteUser, changeStatus }) {
                     alignItems="center"
                 >
                     {
-                        userData.map( (user, index) => {
+                        users.map( (user, index) => {
                             return(
                                 <Grid
                                     item
@@ -25,11 +30,7 @@ function UsersList({ userData, deleteUser, changeStatus }) {
                                     xs={12}
                                     key={user.id}
                                 >
-                                    <UserItem 
-                                        data={user}
-                                        delete={deleteUser.bind(this, index)}
-                                        status={changeStatus.bind(this, index)}
-                                    />
+                                    <UserItem data={user} />
                                 </Grid>);
                                 
                         })

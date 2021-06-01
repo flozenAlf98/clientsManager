@@ -1,14 +1,35 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+
 import { Paper, Avatar } from '@material-ui/core';
+
 import UserActions from './UserActions';
+import { deleteUser, updateUser } from '../../services';
 
 const User = (props) => {
     
-    const { name, lastname, email, picture, isActive } = props.data;
+    const { id, name, lastname, email, picture, isActive } = props.data;
 
-    const handleState = () => { props.status() };
+    const dispatch = useDispatch();
 
-    const handleDelete = () => { props.delete() };
+    const deleteUserHandler = () => {
+    
+        deleteUser(dispatch, id);
+    
+        //TODO: acciones a tomar si no se puede borrar.
+    
+    };
+
+    const userStatusHandler = () => {
+
+        let aux = props.data;
+        aux.isActive = !isActive;
+    
+       updateUser(dispatch, aux);
+    
+        //TODO: Acciones a tomar si no se permite cambiar el status
+    
+    };
  
     return(
         <>
@@ -30,8 +51,8 @@ const User = (props) => {
 
                 <UserActions
                     isActive={isActive}
-                    handleState={handleState} 
-                    handleDelete={handleDelete}
+                    statusHandler={userStatusHandler}
+                    deleteHandler={deleteUserHandler}
                 />
 
             </Paper>
