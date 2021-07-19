@@ -38,3 +38,10 @@ export const updateUser = (changedPost) => {
         payload: changedPost,
     }
 };
+
+export const newFiltered = (newFilter) => {
+    return {
+        type: 'NEW_FILTER',
+        payload: newFilter
+    }
+};

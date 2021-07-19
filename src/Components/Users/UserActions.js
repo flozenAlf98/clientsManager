@@ -2,8 +2,9 @@ import React from 'react';
 
 import { Tooltip, IconButton } from '@material-ui/core';
 import { Delete, Close, Done } from '@material-ui/icons';
+import EditIcon from '@material-ui/icons/Edit';
 
-const UserActions = ({ isActive, deleteHandler, statusHandler }) => {
+const UserActions = ({ isActive, deleteHandler, statusHandler, editHandler }) => {
 
     return (
     <>
@@ -16,14 +17,20 @@ const UserActions = ({ isActive, deleteHandler, statusHandler }) => {
                 </Tooltip> :
                 <Tooltip title="activar">
                     <IconButton onClick={statusHandler} > 
-                        <Done></Done>
+                        <Done />
                     </IconButton>
                 </Tooltip>
             }
 
+            <Tooltip title="editar">
+                <IconButton onClick={editHandler}>
+                    <EditIcon />
+                </IconButton>
+            </Tooltip>
+
             <Tooltip title="eliminar">
                 <IconButton onClick={deleteHandler}>
-                    <Delete></Delete>
+                    <Delete />
                 </IconButton>
             </Tooltip>
 

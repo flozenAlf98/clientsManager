@@ -39,9 +39,18 @@ const mockUsers = [
     }
 ];
 
-export const getData = (dispatch) => {
+const buildEndPoint = (filters) => {
 
-    axios.get(endPoint)
+    if( filters.all ){
+        return endPoint + `?_page=${filters.page}&_limit=5`;
+    }
+
+    return endPoint + `?_page=${filters.page}&_limit=5&isActive=${filters.active}`;
+};
+
+export const getData = (dispatch, filters) => {
+
+    axios.get(buildEndPoint(filters))
     .then(resp => {
 
         dispatch(action.getUsers(resp.data));
@@ -103,4 +112,75 @@ export const openModal = (dispatch) => {
 
 export const closeModal = (dispatch) => {
     dispatch(action.closeModal());
+};
+
+export const getUserById = async (id) => {
+    
+    try {
+        const resp = await axios.get(endPoint+'/'+id);
+
+        return resp.data;
+    } catch {
+        return null;
+    }
+
+};
+
+export const getOnline = (dispatch) => {
+
+    axios.get(endPoint)
+    .then(resp => {
+
+        let online = resp.data.filter((user)=>{
+            return user.isActive;
+        });
+        dispatch(action.getUsers(online));
+
+    }).catch(() => {
+        
+        let online = mockUsers.filter((user)=>{
+            return user.isActive;
+        });
+        dispatch(action.getUsers(online));
+    
+    });
+
+};
+
+export const getOffline = (dispatch) => {
+
+    axios.get(endPoint)
+    .then(resp => {
+
+        let offline = resp.data.filter((user)=>{
+            return !user.isActive;
+        });
+        dispatch(action.getUsers(offline));
+
+    }).catch(() => {
+        
+        let offline = mockUsers.filter((user)=>{
+            return !user.isActive;
+        });
+        dispatch(action.getUsers(offline));
+    
+    });
+
+};
+
+export const changeData = (dispatch, filters ) => {
+
+    dispatch(action.newFiltered(filters));
+
+    axios.get(buildEndPoint(filters))
+    .then(resp => {
+
+        dispatch(action.getUsers(resp.data));
+
+    }).catch(error => {
+        
+        dispatch(action.getUsers(mockUsers));
+    
+    });
+   
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from "react-router-dom";
 
 import { Paper, Avatar } from '@material-ui/core';
 
@@ -11,6 +12,7 @@ const User = (props) => {
     const { id, name, lastname, email, picture, isActive } = props.data;
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const deleteUserHandler = () => {
     
@@ -29,6 +31,10 @@ const User = (props) => {
     
         //TODO: Acciones a tomar si no se permite cambiar el status
     
+    };
+
+    const editUserHandler = () => {
+        history.push('/userprofile/'+id);
     };
  
     return(
@@ -53,6 +59,7 @@ const User = (props) => {
                     isActive={isActive}
                     statusHandler={userStatusHandler}
                     deleteHandler={deleteUserHandler}
+                    editHandler={editUserHandler}
                 />
 
             </Paper>

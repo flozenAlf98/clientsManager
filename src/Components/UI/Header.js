@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
+import { Tooltip, Fab } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { openModal } from '../../services';
@@ -19,14 +20,18 @@ function Header() {
     return(
         <>
             <div className="app-header">        
-                <h1>User Manager ({ users.length })</h1>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={openModalHandler}
-                >
-                    Agregar
-                </Button>
+                <h1>User Manager ({ users.length }) </h1>
+                
+                <Tooltip title="Agregar usuario">
+                    <Fab
+                        size="small"
+                        color="secondary"
+                        aria-label="Agregar usuario"
+                        onClick={openModalHandler}
+                    >
+                        <AddIcon />
+                    </Fab>
+                </Tooltip>
             </div>
             <UserModal />
         </>
